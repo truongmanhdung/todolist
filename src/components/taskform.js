@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 class TaskForm extends Component {
+  // hàm đóng form
   onLockForm = ()=>{
     this.props.onLockForm();
   }
+  // hàm date
   date = () =>{
     const today = Date.now();
     var date = Intl.DateTimeFormat('vn', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(today);
     return date;
   }
+  // tạo constructor
   constructor(props){
     super(props);
     this.state = {
@@ -18,6 +21,7 @@ class TaskForm extends Component {
       status: true
     }
   }
+  // đổ ra khi components đc gọi, chỉ đc gọi duy nhất 1 lần
   componentDidMount(){
     if(this.props.task){
       this.setState({
@@ -29,6 +33,27 @@ class TaskForm extends Component {
       })
     }
   }
+  // đổ ra khi có 1 sự kiện xuất hiện, thay đổi đc nhiều lúc
+  componentWillReceiveProps(nextProps){
+    if(nextProps && nextProps.task){
+      this.setState({
+        id: nextProps.task.id,
+        name: nextProps.task.name,
+        time_start: nextProps.task.time_start,
+        time : nextProps.task.time,
+        status : nextProps.task.status,
+      })
+    }else if(nextProps && nextProps.task===null){//sửa thành thêm
+      this.setState ({
+        id:'',
+        name: '',
+        time_start: '',
+        time: 0,
+        status: true
+      })
+    }
+  }
+  // xóa form
   onClearForm = () => {
     this.setState({
       name: '',
@@ -37,6 +62,7 @@ class TaskForm extends Component {
       status: false
     })
   }
+  // sự kiện onchange
   onChange = (event)=>{
     var target = event.target;
     var name = target.name;
@@ -48,6 +74,7 @@ class TaskForm extends Component {
       [name]:value
     })
   }
+  // sự kiện submit
   onSubmit = (event)=>{
     event.preventDefault();
     this.props.onSubmit(this.state);

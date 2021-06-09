@@ -10,8 +10,8 @@ class sort extends Component {
                 <option >Sắp xếp</option>
                 <option value="1">Từ A-Z</option>
                 <option value="2">Từ Z-A</option>
-                <option value="3">Kích hoạt</option>
-                <option value="4">Ẩn</option>
+                <option value="3">Hoàn thành</option>
+                <option value="4">Chưa hoàn thành</option>
               </select>
             </div>
           </form>
