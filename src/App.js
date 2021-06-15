@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import TaskForm from "./components/taskform";
 import Control from "./components/control";
-import TaskList from "./components/tasklist"
+import TaskList from "./components/tasklist";
 class App extends Component {
   // tạo construstor
   constructor(props){
@@ -16,6 +16,10 @@ class App extends Component {
         status: -1,
       },
     }
+    localStorage.setItem('tasks', JSON.stringify([]))
+  }
+  new(){
+    
   }
   //khi mở form sẽ chạy lệnh, chỉ chạy duy nhất 1 lần mỗi khi component đc gửi
   componentDidMount(){
@@ -137,9 +141,9 @@ class App extends Component {
     })
   }
   render() {
-    var { tasks, isDisplayform, taskEdit,filter } = this.state;
-    if(filter){
-      if(filter.name){
+    var { tasks, isDisplayform, taskEdit,filter } = this.state;//lấy ra các tasks, chuyển trạng thái
+    if(filter){//kiểm tra filter
+      if(filter.name){//kiểm tra có name ko
         tasks = tasks.filter((task)=>{
           return task.name.toLowerCase().indexOf(filter.name) !==-1; // chuyển thành chữ viết thường và in ra
         })

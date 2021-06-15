@@ -5,7 +5,7 @@ class search extends Component {
       <div className="search">
         <div>
           <form className="d-flex">
-            <input type="search" name="search" className="form-control" />
+            <input type="search" name="search" required className="form-control" />
             <button className="btn btn-primary" type="submit">
               <i className="fas fa-search" />
             </button>
