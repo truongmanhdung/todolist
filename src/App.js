@@ -3,6 +3,8 @@ import "./App.css";
 import TaskForm from "./components/taskform";
 import Control from "./components/control";
 import TaskList from "./components/tasklist";
+import {connect} from 'react-redux';
+import * as actions from './actions/index'
 class App extends Component {
   // tạo construstor
   constructor(props){
@@ -16,10 +18,7 @@ class App extends Component {
         status: -1,
       },
     }
-    localStorage.setItem('tasks', JSON.stringify([]))
-  }
-  new(){
-    
+    // localStorage.setItem('tasks', JSON.stringify([]))
   }
   //khi mở form sẽ chạy lệnh, chỉ chạy duy nhất 1 lần mỗi khi component đc gửi
   componentDidMount(){
@@ -30,58 +29,30 @@ class App extends Component {
       })
     }
   }
-  // format id
-  s4(){
-    return Math.floor((1+Math.random())*0x10000).toString(16).substring(1);
-  }
-  // hàm return ra id 
-  generateID(){
-    return this.s4()+'/'+ this.s4()+'-'+this.s4()+'-'+this.s4();
-  }
+
   // đóng mở form
   displayForm = ()=>{
     // khi edit thì chuyển đổi form
-    if(this.state.isDisplayform && this.state.taskEdit!==null){
-      this.setState({
-        isDisplayform: true,
-        taskEdit: null
-      })
-    // ngược lại
-    }else{
-      this.setState({
-        isDisplayform: !this.state.isDisplayform,
-        taskEdit: null
-      })
-    }
+    // if(this.state.isDisplayform && this.state.taskEdit!==null){
+    //   this.setState({
+    //     isDisplayform: true,
+    //     taskEdit: null
+    //   })
+    // // ngược lại
+    // }else{
+    //   this.setState({
+    //     isDisplayform: !this.state.isDisplayform,
+    //     taskEdit: null
+    //   })
+    // }
+    this.props.onToggleForm()
     
-  }
-  // đóng form
-  onLockForm = ()=>{
-    this.setState({
-      isDisplayform: false,
-    })
   }
   // mở form thêm, sửa
   onShowForm = ()=>{
     this.setState({
       isDisplayform: true
     })
-  }
-  // lưu data
-  onSubmit = (data)=>{
-    var {tasks} = this.state;
-    if(data.id===''){
-      data.id = this.generateID();
-      tasks.push(data);
-    }else{
-      var index = this.findIndex(data.id);
-      tasks[index] = data;
-    }
-    this.setState({
-      tasks: tasks,
-      taskEdit: null
-    });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
   // update trạng thái
   onUpdateStatus = (id)=>{
@@ -142,6 +113,8 @@ class App extends Component {
   }
   render() {
     var { tasks, isDisplayform, taskEdit,filter } = this.state;//lấy ra các tasks, chuyển trạng thái
+    var {isDisplayform} = this.props;
+
     if(filter){//kiểm tra filter
       if(filter.name){//kiểm tra có name ko
         tasks = tasks.filter((task)=>{
@@ -158,8 +131,7 @@ class App extends Component {
     }
     var elementTaskForm = isDisplayform ? <TaskForm
     task={taskEdit}
-    onSubmit={this.onSubmit}
-    onLockForm={this.onLockForm}/> : '';
+    /> : '';
     return (
       <div>
         <div className="container mt-5">
@@ -181,7 +153,7 @@ class App extends Component {
             </div>
             <Control/>
             <div className="todolist-body">
-              <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus}
+              <TaskList onUpdateStatus={this.onUpdateStatus}
                 onDelete = {this.onDelete}
                 onUpDate = {this.onUpDate}
                 onFillter = {this.onFillter}
@@ -194,4 +166,21 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) =>{
+  return {
+    isDisplayform: state.isDisplayform
+  }
+}
+
+const mapDispatchToProps = (dispatch,props) =>{
+  return {
+    onToggleForm: () =>{
+      dispatch(actions.toggleForm())
+    },
+    
+
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps) (App);
