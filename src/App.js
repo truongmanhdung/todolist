@@ -55,30 +55,30 @@ class App extends Component {
     })
   }
   // update trạng thái
-  onUpdateStatus = (id)=>{
-    var { tasks } = this.state;
-    var index = this.findIndex(id);
-    if(index !== -1){
-      tasks[index].status = !tasks[index].status;
-      this.setState({
-        tasks: tasks
-      });
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-  }
+  // onUpdateStatus = (id)=>{
+  //   var { tasks } = this.state;
+  //   var index = this.findIndex(id);
+  //   if(index !== -1){
+  //     tasks[index].status = !tasks[index].status;
+  //     this.setState({
+  //       tasks: tasks
+  //     });
+  //     localStorage.setItem('tasks', JSON.stringify(tasks));
+  //   }
+  // }
   // delete
-  onDelete = (id)=>{
-    var { tasks } = this.state;
-    var index = this.findIndex(id);
-    if(index !== -1){
-      tasks.splice(index, 1);
-      this.setState({
-        tasks: tasks
-      });
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-    this.onLockForm();
-  }
+  // onDelete = (id)=>{
+  //   var { tasks } = this.state;
+  //   var index = this.findIndex(id);
+  //   if(index !== -1){
+  //     tasks.splice(index, 1);
+  //     this.setState({
+  //       tasks: tasks
+  //     });
+  //     localStorage.setItem('tasks', JSON.stringify(tasks));
+  //   }
+  //   this.onLockForm();
+  // }
   // update
   onUpDate = (id)=>{
     var { tasks } = this.state;
@@ -153,8 +153,7 @@ class App extends Component {
             </div>
             <Control/>
             <div className="todolist-body">
-              <TaskList onUpdateStatus={this.onUpdateStatus}
-                onDelete = {this.onDelete}
+              <TaskList
                 onUpDate = {this.onUpDate}
                 onFillter = {this.onFillter}
               />

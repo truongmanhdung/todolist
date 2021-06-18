@@ -30,3 +30,23 @@ export const openForm = () =>{
           type: types.OPEN_FORM,
      }
 }
+
+
+export const onUpdateStatus = (id) =>{
+     return {
+          type: types.UPDATE_STATUS,
+          id: id,
+     }
+}
+export const onDelete = (id) =>{
+     return {
+          type: types.DELETE_TASK,
+          id: id,
+     }
+}
+export const onEditTask = (task) =>{
+     return {
+          type: types.EDIT_TASK,
+          task: task
+     }
+}

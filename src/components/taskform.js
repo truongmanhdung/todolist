@@ -2,16 +2,7 @@ import React, { Component } from "react";
 import {connect} from 'react-redux'
 import * as actions from "../actions/index";
 class TaskForm extends Component {
-  // hàm đóng form
-  onLockForm = ()=>{
-    this.props.onCloseForm();
-  }
-  // hàm date
-  date = () =>{
-    const today = Date.now();
-    var date = Intl.DateTimeFormat('vn', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(today);
-    return date;
-  }
+ 
   // tạo constructor
   constructor(props){
     super(props);
@@ -55,6 +46,16 @@ class TaskForm extends Component {
       })
     }
   }
+   // hàm đóng form
+   onLockForm = ()=>{
+    this.props.onCloseForm();
+  }
+  // hàm date
+  date = () =>{
+    const today = Date.now();
+    var date = Intl.DateTimeFormat('vn', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(today);
+    return date;
+  }
   // xóa form
   onClearForm = () => {
     this.setState({
@@ -86,6 +87,7 @@ class TaskForm extends Component {
   }
   render() {
     var {id} = this.state;
+    if(!this.props.isDisplayform) return '';
     return (
       <div>
         <div className="d-flex bg-primary p-3 color-white justify-content-between align-items-center">
@@ -127,7 +129,7 @@ class TaskForm extends Component {
 }
 const mapStateToProps = (state) =>{
   return {
-
+    isDisplayform: state.isDisplayform
   }
 }
 
@@ -138,7 +140,7 @@ const mapDispatchToProps = (dispatch,props) =>{
     },
     onCloseForm: () =>{
       dispatch(actions.closeForm())
-    }
+    },
   }
 }
 
